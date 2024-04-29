@@ -20,6 +20,7 @@ android {
         vectorDrawables {
             useSupportLibrary = true
         }
+
         val TMDB_API_KEY = properties["TMDB_API_KEY"]
         buildConfigField("String", "TMDB_API_KEY", "\"$TMDB_API_KEY\"")
 
