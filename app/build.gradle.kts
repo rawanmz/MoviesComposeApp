@@ -89,6 +89,7 @@ dependencies {
 
     //glide
     implementation (libs.glide)
+    implementation (libs.compose)
 
     //coil
     implementation (libs.coil.compose)
