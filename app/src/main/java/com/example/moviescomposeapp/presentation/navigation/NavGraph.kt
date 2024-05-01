@@ -7,6 +7,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.moviescomposeapp.presentation.screens.onBoarding.OnBoardingScreen
+import com.example.moviescomposeapp.presentation.screens.onBoarding.OnBoardingViewModel
 import com.example.moviescomposeapp.presentation.screens.popular.PopularMoviesScreen
 import com.example.moviescomposeapp.presentation.screens.popular.PopularMoviesViewModel
 
@@ -14,13 +15,14 @@ import com.example.moviescomposeapp.presentation.screens.popular.PopularMoviesVi
 fun NavGraph(
     navController: NavHostController = rememberNavController()
 ) {
+    val onBoardingViewModel: OnBoardingViewModel = hiltViewModel()
     NavHost(
         navController = navController,
-        startDestination = Screens.OnBoarding.route
+        startDestination = onBoardingViewModel.startDestination
     )
     {
         composable(Screens.OnBoarding.route) {
-            OnBoardingScreen(navController)
+            OnBoardingScreen(onBoardingViewModel, navController)
         }
         composable(Screens.PopularMovie.route) {
             val viewModel = hiltViewModel<PopularMoviesViewModel>()

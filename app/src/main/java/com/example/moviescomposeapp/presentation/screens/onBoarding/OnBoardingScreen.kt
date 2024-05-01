@@ -14,6 +14,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.CircleShape
@@ -22,6 +23,8 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.paint
@@ -43,44 +46,52 @@ import com.example.moviescomposeapp.ui.theme.LightYellow
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun OnBoardingScreen(navController: NavHostController) {
-    val pagerState = rememberPagerState(
-        0,
-        pageCount = {
-            3
-        })
-    HorizontalPager(state = pagerState) { page ->
-        Column {
-            Row(
-                Modifier
-                    .height(50.dp)
-                    .fillMaxWidth()
-                    .background(DarkGreenBlue)
-                    .padding(top = 16.dp),
-                horizontalArrangement = Arrangement.Center
-            ) {
-                (0..2).forEach { index ->
-                    val color =
-                        if (pagerState.currentPage == index) LightYellow else Color.White
-                    Box(
-                        modifier = Modifier
-                            .padding(8.dp)
-                            .background(color, CircleShape)
-                            .size(10.dp)
-                    )
-                }
-            }
-            when (page) {
-                0 -> {
-                    FirstScreen()
-                }
+fun OnBoardingScreen(onBoardingViewModel: OnBoardingViewModel, navController: NavHostController) {
+    val onBoardingCompleted by onBoardingViewModel.onBoardingCompleted.collectAsState()
 
-                1 -> {
-                    SecondScreen()
+    if (onBoardingCompleted) {
+        navController.navigate(Screens.PopularMovie.route)
+    } else {
+        val pagerState = rememberPagerState(
+            0,
+            pageCount = {
+                3
+            })
+        HorizontalPager(state = pagerState) { page ->
+            Column {
+                Row(
+                    Modifier
+                        .height(50.dp)
+                        .fillMaxWidth()
+                        .background(DarkGreenBlue)
+                        .padding(top = 16.dp),
+                    horizontalArrangement = Arrangement.Center
+                ) {
+                    (0..2).forEach { index ->
+                        val color =
+                            if (pagerState.currentPage == index) LightYellow else Color.White
+                        Box(
+                            modifier = Modifier
+                                .padding(8.dp)
+                                .background(color, CircleShape)
+                                .size(10.dp)
+                        )
+                    }
                 }
+                when (page) {
+                    0 -> {
+                        FirstScreen()
+                    }
 
-                2 -> {
-                    ThirdScreen(navController)
+                    1 -> {
+                        SecondScreen()
+                    }
+
+                    2 -> {
+                        ThirdScreen(navController) {
+                            onBoardingViewModel.saveOnBoardingState(true)
+                        }
+                    }
                 }
             }
         }
@@ -111,35 +122,35 @@ fun FirstScreen() {
                 )
         )
 
-        Column(
+        LazyColumn(
             modifier = Modifier
                 .fillMaxSize(),
             verticalArrangement = Arrangement.Top,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
+            item {
+                Image(
+                    painter = painterResource(id = R.drawable.movie),
+                    contentDescription = "fil image",
+                    modifier = Modifier.size(350.dp)
+                )
 
-            Image(
-                painter = painterResource(id = R.drawable.movie),
-                contentDescription = "fil image",
-                modifier = Modifier.size(350.dp)
-            )
+                Text(
+                    text = "Welcome to CineSpectra!",
+                    modifier = Modifier.padding(12.dp),
+                    textAlign = TextAlign.Center,
+                    fontSize = 22.sp,
+                    fontWeight = FontWeight.Bold
+                )
 
-            Text(
-                text = "Welcome to CineSpectra!",
-                modifier = Modifier.padding(12.dp),
-                textAlign = TextAlign.Center,
-                fontSize = 22.sp,
-                fontWeight = FontWeight.Bold
-            )
-
-            Text(
-                text = "Explore the latest movies, reserve the perfect seats, and experience the cinema in a whole new way.",
-                modifier = Modifier.padding(12.dp),
-                textAlign = TextAlign.Center,
-                fontSize = 16.sp,
-                color = Color.White
-            )
-
+                Text(
+                    text = "Explore the latest movies, reserve the perfect seats, and experience the cinema in a whole new way.",
+                    modifier = Modifier.padding(12.dp),
+                    textAlign = TextAlign.Center,
+                    fontSize = 16.sp,
+                    color = Color.White
+                )
+            }
         }
     }
 }
@@ -167,41 +178,42 @@ fun SecondScreen() {
                 )
         )
 
-        Column(
+        LazyColumn(
             modifier = Modifier
                 .fillMaxSize(),
             verticalArrangement = Arrangement.Top,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
+            item {
+                Image(
+                    painter = painterResource(id = R.drawable.home_cinema),
+                    contentDescription = "fil image",
+                    modifier = Modifier.size(350.dp)
+                )
 
-            Image(
-                painter = painterResource(id = R.drawable.home_cinema),
-                contentDescription = "fil image",
-                modifier = Modifier.size(350.dp)
-            )
+                Text(
+                    text = "Welcome to CineSpectra!",
+                    modifier = Modifier.padding(12.dp),
+                    textAlign = TextAlign.Center,
+                    fontSize = 22.sp,
+                    fontWeight = FontWeight.Bold
+                )
 
-            Text(
-                text = "Welcome to CineSpectra!",
-                modifier = Modifier.padding(12.dp),
-                textAlign = TextAlign.Center,
-                fontSize = 22.sp,
-                fontWeight = FontWeight.Bold
-            )
-
-            Text(
-                text = "Explore the latest movies, reserve the perfect seats, and experience the cinema in a whole new way.",
-                modifier = Modifier.padding(12.dp),
-                textAlign = TextAlign.Center,
-                fontSize = 16.sp,
-                color = Color.White
-            )
+                Text(
+                    text = "Explore the latest movies, reserve the perfect seats, and experience the cinema in a whole new way.",
+                    modifier = Modifier.padding(12.dp),
+                    textAlign = TextAlign.Center,
+                    fontSize = 16.sp,
+                    color = Color.White
+                )
+            }
         }
     }
 }
 
 
 @Composable
-fun ThirdScreen(navController: NavHostController) {
+fun ThirdScreen(navController: NavHostController, onFinishClick: () -> Unit) {
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -222,53 +234,57 @@ fun ThirdScreen(navController: NavHostController) {
                 )
         )
 
-        Column(
+        LazyColumn(
             modifier = Modifier
                 .fillMaxSize(),
             verticalArrangement = Arrangement.Top,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
+            item {
+                Image(
+                    painter = painterResource(id = R.drawable.horror_movie),
+                    contentDescription = "fil image",
+                    modifier = Modifier.size(350.dp)
+                )
 
-            Image(
-                painter = painterResource(id = R.drawable.horror_movie),
-                contentDescription = "fil image",
-                modifier = Modifier.size(350.dp)
-            )
+                Text(
+                    text = "Welcome to CineSpectra!",
+                    modifier = Modifier.padding(12.dp),
+                    textAlign = TextAlign.Center,
+                    fontSize = 22.sp,
+                    fontWeight = FontWeight.Bold
+                )
 
-            Text(
-                text = "Welcome to CineSpectra!",
-                modifier = Modifier.padding(12.dp),
-                textAlign = TextAlign.Center,
-                fontSize = 22.sp,
-                fontWeight = FontWeight.Bold
-            )
-
-            Text(
-                text = "Explore the latest movies, reserve the perfect seats, and experience the cinema in a whole new way.",
-                modifier = Modifier.padding(12.dp),
-                textAlign = TextAlign.Center,
-                fontSize = 16.sp,
-                color = Color.White
-            )
-            Row(
-                modifier = Modifier
-                    .padding(40.dp)
-                    .fillMaxHeight(),
-                verticalAlignment = Alignment.Bottom,
-                horizontalArrangement = Arrangement.Center
-            ) {
-                AnimatedVisibility(
-                    modifier = Modifier.fillMaxWidth(),
-                    visible = true
+                Text(
+                    text = "Explore the latest movies, reserve the perfect seats, and experience the cinema in a whole new way.",
+                    modifier = Modifier.padding(12.dp),
+                    textAlign = TextAlign.Center,
+                    fontSize = 16.sp,
+                    color = Color.White
+                )
+                Row(
+                    modifier = Modifier
+                        .padding(40.dp)
+                        .fillMaxHeight(),
+                    verticalAlignment = Alignment.Bottom,
+                    horizontalArrangement = Arrangement.Center
                 ) {
-                    Button(
-                        onClick = { navController.navigate(Screens.PopularMovie.route) },
-                        colors = ButtonDefaults.buttonColors(
-                            contentColor = Color.White
-                        ),
-                        shape= RoundedCornerShape(5.dp)
+                    AnimatedVisibility(
+                        modifier = Modifier.fillMaxWidth(),
+                        visible = true
                     ) {
-                        Text(text = "Finish", modifier = Modifier.padding(4.dp))
+                        Button(
+                            onClick = {
+                                navController.navigate(Screens.PopularMovie.route)
+                                onFinishClick.invoke()
+                            },
+                            colors = ButtonDefaults.buttonColors(
+                                contentColor = Color.White
+                            ),
+                            shape = RoundedCornerShape(5.dp)
+                        ) {
+                            Text(text = "Finish", modifier = Modifier.padding(4.dp))
+                        }
                     }
                 }
             }
