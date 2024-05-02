@@ -1,6 +1,5 @@
 package com.example.moviescomposeapp.presentation.screens.popular
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -8,7 +7,6 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Text
@@ -69,14 +67,6 @@ fun PopularMoviesScreen(
                         modifier = Modifier
                             .fillMaxSize()
                     ) {
-                        item {
-                            Image(
-                                painter = painterResource(id = R.drawable.horror_movie),
-                                contentDescription = "fil image",
-                                modifier = Modifier.size(350.dp)
-                            )
-
-                        }
                         items(result.data?.results.orEmpty()) {
                             GlideImage(
                                 model = "${MOVIE_IMAGE_BASE_URL}${BackdropSize.w300}/${it.posterPath}",

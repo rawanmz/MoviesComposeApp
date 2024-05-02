@@ -19,7 +19,6 @@ class OnBoardingViewModel @Inject constructor(
 ) : ViewModel() {
 
      val onBoardingCompleted = MutableStateFlow(false)
-    //val onBoardingCompleted: StateFlow<Boolean> = _onBoardingCompleted
     var startDestination: String = Screens.OnBoarding.route
 
     init {

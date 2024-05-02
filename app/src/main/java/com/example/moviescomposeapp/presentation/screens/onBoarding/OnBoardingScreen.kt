@@ -40,6 +40,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.example.moviescomposeapp.R
 import com.example.moviescomposeapp.presentation.navigation.Screens
+import com.example.moviescomposeapp.presentation.navigation.popUpToTop
 import com.example.moviescomposeapp.ui.theme.DarkGreenBlue
 import com.example.moviescomposeapp.ui.theme.LightYellow
 
@@ -50,7 +51,9 @@ fun OnBoardingScreen(onBoardingViewModel: OnBoardingViewModel, navController: Na
     val onBoardingCompleted by onBoardingViewModel.onBoardingCompleted.collectAsState()
 
     if (onBoardingCompleted) {
-        navController.navigate(Screens.PopularMovie.route)
+        navController.navigate(Screens.PopularMovie.route){
+            popUpToTop(navController)
+        }
     } else {
         val pagerState = rememberPagerState(
             0,
@@ -275,7 +278,9 @@ fun ThirdScreen(navController: NavHostController, onFinishClick: () -> Unit) {
                     ) {
                         Button(
                             onClick = {
-                                navController.navigate(Screens.PopularMovie.route)
+                                navController.navigate(Screens.PopularMovie.route){
+                                    popUpToTop(navController)
+                                }
                                 onFinishClick.invoke()
                             },
                             colors = ButtonDefaults.buttonColors(
