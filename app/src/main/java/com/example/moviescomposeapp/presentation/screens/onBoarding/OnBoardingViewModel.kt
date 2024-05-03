@@ -1,5 +1,7 @@
 package com.example.moviescomposeapp.presentation.screens.onBoarding
 
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.moviescomposeapp.domain.onBoarding.GetIsSafeFromDataStoreUseCase
@@ -18,18 +20,20 @@ class OnBoardingViewModel @Inject constructor(
     private val getIsSafeFromDataStoreUseCase: GetIsSafeFromDataStoreUseCase
 ) : ViewModel() {
 
-     val onBoardingCompleted = MutableStateFlow(false)
-    var startDestination: String = Screens.OnBoarding.route
+    val onBoardingCompleted = MutableStateFlow(false)
+    val startDestination: MutableState<String> = mutableStateOf(Screens.Home.route)
+
 
     init {
         getOnBoardingState()
     }
 
-    private fun getOnBoardingState() {
+     fun getOnBoardingState() {
         viewModelScope.launch {
-            onBoardingCompleted.value = getIsSafeFromDataStoreUseCase().stateIn(viewModelScope).value
-            startDestination =
-                if (onBoardingCompleted.value) Screens.PopularMovie.route else Screens.OnBoarding.route
+            onBoardingCompleted.value =
+                getIsSafeFromDataStoreUseCase().stateIn(viewModelScope).value
+            startDestination.value =
+                if (onBoardingCompleted.value) Screens.Home.route else Screens.OnBoarding.route
 
         }
     }

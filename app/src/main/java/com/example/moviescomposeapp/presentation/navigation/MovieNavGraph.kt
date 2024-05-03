@@ -1,6 +1,11 @@
 package com.example.moviescomposeapp.presentation.navigation
 
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.NavHostController
@@ -14,22 +19,37 @@ import com.example.moviescomposeapp.presentation.screens.popular.PopularMoviesSc
 import com.example.moviescomposeapp.presentation.screens.popular.PopularMoviesViewModel
 
 @Composable
-fun NavGraph(
+fun MovieNavGraph(
     navController: NavHostController = rememberNavController()
 ) {
     val onBoardingViewModel: OnBoardingViewModel = hiltViewModel()
     NavHost(
         navController = navController,
-        startDestination = onBoardingViewModel.startDestination
+        startDestination = onBoardingViewModel.startDestination.value
     )
     {
         composable(Screens.OnBoarding.route) {
             OnBoardingScreen(onBoardingViewModel, navController)
         }
-        composable(Screens.PopularMovie.route) {
+        composable(Screens.Home.route) {
             val viewModel = hiltViewModel<PopularMoviesViewModel>()
             PopularMoviesScreen(navController, viewModel.popularMoviesState)
         }
+        composable(Screens.Search.route) {
+            Column(modifier = Modifier
+                .fillMaxSize()
+                .background(Color.Gray)) {
+
+            }
+        }
+        composable(Screens.Profile.route) {
+            Column(modifier = Modifier
+                .fillMaxSize()
+                .background(Color.Gray)) {
+
+            }
+        }
+
     }
 }
 

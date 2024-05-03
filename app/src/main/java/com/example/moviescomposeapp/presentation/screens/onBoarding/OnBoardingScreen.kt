@@ -51,7 +51,7 @@ fun OnBoardingScreen(onBoardingViewModel: OnBoardingViewModel, navController: Na
     val onBoardingCompleted by onBoardingViewModel.onBoardingCompleted.collectAsState()
 
     if (onBoardingCompleted) {
-        navController.navigate(Screens.PopularMovie.route){
+        navController.navigate(Screens.Home.route){
             popUpToTop(navController)
         }
     } else {
@@ -121,7 +121,7 @@ fun FirstScreen() {
                     // Replace with your image id
                     painterResource(id = R.drawable.bottom_background),
                     contentScale = ContentScale.FillWidth,
-                    sizeToIntrinsics = false
+                    sizeToIntrinsics = true
                 )
         )
 
@@ -278,7 +278,7 @@ fun ThirdScreen(navController: NavHostController, onFinishClick: () -> Unit) {
                     ) {
                         Button(
                             onClick = {
-                                navController.navigate(Screens.PopularMovie.route){
+                                navController.navigate(Screens.Home.route){
                                     popUpToTop(navController)
                                 }
                                 onFinishClick.invoke()

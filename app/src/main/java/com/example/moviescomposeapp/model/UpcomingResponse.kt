@@ -12,7 +12,7 @@ data class SearchResponse(
 
 
 data class Results(
-    @SerializedName("adult") var adult: Boolean? = false,
+    @SerializedName("adult") var adult: Boolean? ,
     @SerializedName("backdrop_path") var backdropPath: String? = null,
     @SerializedName("genre_ids") var genreIds: ArrayList<Int> = arrayListOf(),
     @SerializedName("id") var id: Int? = null,
