@@ -13,6 +13,7 @@ import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableIntState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
@@ -45,7 +46,7 @@ class MainActivity : ComponentActivity() {
                     Screens.OnBoarding.route -> false // on this screen bottom bar should be hidden
                     else -> true // in all other cases show bottom bar
                 }
-                val navigationSelectedItem by remember {
+                val navigationSelectedItem = remember {
                     mutableIntStateOf(0)
                 }
 
@@ -70,15 +71,14 @@ class MainActivity : ComponentActivity() {
 
     @Composable
     private fun RowScope.BottomNavigationBar(
-        navigationSelectedItem: Int,
+        navigationSelectedItem: MutableIntState,
         navController: NavHostController
     ) {
-        var navigationSelectedItem1 = navigationSelectedItem
         BottomNavigationItem().bottomNavigationItems()
             .forEachIndexed { index, navigationItem ->
                 //iterating all items with their respective indexes
                 NavigationBarItem(
-                    selected = index == navigationSelectedItem1,
+                    selected = index == navigationSelectedItem.intValue,
                     label = {
                         Text(navigationItem.label)
                     },
@@ -89,7 +89,7 @@ class MainActivity : ComponentActivity() {
                         )
                     },
                     onClick = {
-                        navigationSelectedItem1 = index
+                        navigationSelectedItem.intValue = index
                         navController.navigate(navigationItem.route) {
                             popUpToTop(navController)
                         }

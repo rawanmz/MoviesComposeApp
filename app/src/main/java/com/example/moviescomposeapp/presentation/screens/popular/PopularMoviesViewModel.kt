@@ -33,7 +33,6 @@ class PopularMoviesViewModel @Inject constructor(
                 .collect {
                     popularMoviesState.value = it
                 }
-
         }
     }
 }

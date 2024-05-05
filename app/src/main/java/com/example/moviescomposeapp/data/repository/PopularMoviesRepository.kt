@@ -6,8 +6,6 @@ import androidx.paging.PagingData
 import com.example.moviescomposeapp.data.paging.MoviePagingSource
 import com.example.moviescomposeapp.data.remote.MovieApi
 import com.example.moviescomposeapp.model.Results
-import com.example.moviescomposeapp.model.SearchResponse
-import com.example.moviescomposeapp.model.UIState
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -30,7 +28,7 @@ class PopularMoviesRepository @Inject constructor(
 //
 //    }
 
-     suspend fun getPopularMovies(): Flow<PagingData<Results>> {
+      fun getPopularMovies(): Flow<PagingData<Results>> {
         return Pager(
             config = PagingConfig(pageSize = 15, prefetchDistance = 2),
             pagingSourceFactory = {
