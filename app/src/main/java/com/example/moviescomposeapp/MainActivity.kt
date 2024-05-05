@@ -46,7 +46,7 @@ class MainActivity : ComponentActivity() {
                     Screens.OnBoarding.route -> false // on this screen bottom bar should be hidden
                     else -> true // in all other cases show bottom bar
                 }
-                val navigationSelectedItem = remember {
+                val navigationSelectedItem = rememberSaveable {
                     mutableIntStateOf(0)
                 }
 
