@@ -12,6 +12,8 @@ sealed class Screens(val route: String) {
     object Home : Screens("popular_movie_screen")
     object Search : Screens("search_route")
     object Profile : Screens("profile_route")
+    object MovieDetail : Screens("movie_detail_route")
+
 }
 
 

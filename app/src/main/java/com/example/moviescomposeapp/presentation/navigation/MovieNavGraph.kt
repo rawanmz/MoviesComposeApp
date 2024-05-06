@@ -10,9 +10,13 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import androidx.navigation.NavOptionsBuilder
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
+import com.example.moviescomposeapp.presentation.screens.detail.MovieDetailViewModel
+import com.example.moviescomposeapp.presentation.screens.detail.MovieDetailsScreen
 import com.example.moviescomposeapp.presentation.screens.onBoarding.OnBoardingScreen
 import com.example.moviescomposeapp.presentation.screens.onBoarding.OnBoardingViewModel
 import com.example.moviescomposeapp.presentation.screens.popular.PopularMoviesScreen
@@ -49,7 +53,15 @@ fun MovieNavGraph(
 
             }
         }
+        composable("${Screens.MovieDetail.route}/{id}", arguments = listOf(
+            navArgument("id") {
+                type = NavType.IntType
+            }
+        )) {
+            val viewModel = hiltViewModel<MovieDetailViewModel>()
+            MovieDetailsScreen(viewModel=viewModel, int = it.arguments?.getInt("id"), )
 
+        }
     }
 }
 

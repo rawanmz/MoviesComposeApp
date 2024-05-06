@@ -1,10 +1,10 @@
 package com.example.moviescomposeapp.presentation.screens.popular
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
@@ -25,6 +25,7 @@ import com.example.moviescomposeapp.Constant.MOVIE_IMAGE_BASE_URL
 import com.example.moviescomposeapp.R
 import com.example.moviescomposeapp.model.BackdropSize
 import com.example.moviescomposeapp.model.Results
+import com.example.moviescomposeapp.presentation.navigation.Screens
 import kotlinx.coroutines.flow.MutableStateFlow
 
 @Composable
@@ -46,7 +47,10 @@ fun PopularMoviesScreen(
                         model = "${MOVIE_IMAGE_BASE_URL}${BackdropSize.w300}/${moviePagingItems[index]?.posterPath}",
                         contentDescription = "",
                         modifier = Modifier
-                            .padding(2.dp),
+                            .padding(2.dp)
+                            .clickable {
+                                navController.navigate(Screens.MovieDetail.route + "/${moviePagingItems[index]?.id}")
+                            },
                         contentScale = ContentScale.FillWidth,
                         error = painterResource(R.drawable.no_poster),
                         placeholder = painterResource(R.drawable.no_poster)
