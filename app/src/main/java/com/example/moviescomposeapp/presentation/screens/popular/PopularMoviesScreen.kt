@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -31,10 +32,12 @@ import kotlinx.coroutines.flow.MutableStateFlow
 @Composable
 fun PopularMoviesScreen(
     navController: NavHostController,
-    popularMoviesState: MutableStateFlow<PagingData<Results>>
+    popularMoviesState: MutableStateFlow<PagingData<Results>>,
+    function: () -> Unit
 ) {
     val moviePagingItems = popularMoviesState.collectAsLazyPagingItems()
     Box {
+
         LazyVerticalGrid(
             columns = GridCells.Fixed(3),
             modifier = Modifier.fillMaxSize(),
@@ -105,5 +108,9 @@ fun PopularMoviesScreen(
             }
         }
     }
-
+    Button(onClick = {
+        function.invoke()
+    }) {
+        Text(text = "Refresh")
+    }
 }

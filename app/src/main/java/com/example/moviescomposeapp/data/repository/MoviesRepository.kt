@@ -9,6 +9,7 @@ import com.example.moviescomposeapp.model.MovieDetailsResponse
 import com.example.moviescomposeapp.model.Results
 import com.example.moviescomposeapp.model.UIState
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.distinctUntilChanged
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -32,7 +33,7 @@ class MoviesRepository @Inject constructor(
 
       fun getPopularMovies(): Flow<PagingData<Results>> {
         return Pager(
-            config = PagingConfig(pageSize = 15, prefetchDistance = 2),
+            config = PagingConfig(pageSize = 20, prefetchDistance = 20, enablePlaceholders = false),
             pagingSourceFactory = {
                 MoviePagingSource(movieApi)
             }

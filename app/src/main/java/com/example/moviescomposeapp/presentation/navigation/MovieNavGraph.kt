@@ -37,7 +37,9 @@ fun MovieNavGraph(
         }
         composable(Screens.Home.route) {
             val viewModel = hiltViewModel<PopularMoviesViewModel>()
-            PopularMoviesScreen(navController, viewModel.popularMoviesState)
+            PopularMoviesScreen(navController, viewModel.popularMoviesState){
+                viewModel.getPopularMovies()
+            }
         }
         composable(Screens.Search.route) {
             Column(modifier = Modifier
