@@ -61,9 +61,7 @@ fun MovieDetailsScreen(int: Int?, viewModel: MovieDetailViewModel) {
                                 AsyncImage(
                                     model = "${Constant.MOVIE_IMAGE_BASE_URL}${BackdropSize.w300}/${data.data?.posterPath}",
                                     contentDescription = "",
-                                    modifier = Modifier
-                                    //    .align(Alignment)
-                                        ,
+                                    modifier = Modifier,
                                     contentScale = ContentScale.FillWidth,
                                     error = painterResource(R.drawable.no_poster),
                                     placeholder = painterResource(R.drawable.no_poster)

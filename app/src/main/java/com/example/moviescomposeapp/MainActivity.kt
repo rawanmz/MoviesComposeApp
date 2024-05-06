@@ -92,6 +92,8 @@ class MainActivity : ComponentActivity() {
                         navigationSelectedItem.intValue = index
                         navController.navigate(navigationItem.route) {
                             popUpToTop(navController)
+                            restoreState = true
+                            launchSingleTop = true
                         }
                     }
                 )

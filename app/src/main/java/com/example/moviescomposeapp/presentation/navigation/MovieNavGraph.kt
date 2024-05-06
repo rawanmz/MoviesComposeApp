@@ -68,5 +68,6 @@ fun MovieNavGraph(
 fun NavOptionsBuilder.popUpToTop(navController: NavController) {
     popUpTo(navController.currentBackStackEntry?.destination?.route ?: return) {
         inclusive =  true
+        saveState = true
     }
 }
