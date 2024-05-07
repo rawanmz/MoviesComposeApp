@@ -1,39 +1,33 @@
-package com.example.moviescomposeapp.presentation.screens.popular
-
+package com.example.moviescomposeapp.presentation.screens.search
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
-import androidx.paging.filter
-import com.example.moviescomposeapp.domain.popular.GetPopularMoviesUseCase
+import com.example.moviescomposeapp.domain.search.SearchInMoviesUseCase
 import com.example.moviescomposeapp.model.Results
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.collectIndexed
+import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-
 @HiltViewModel
-class PopularMoviesViewModel @Inject constructor(
-    private val getPopularMoviesUseCase: GetPopularMoviesUseCase
+class SearchViewModel @Inject constructor(
+    private val searchInMoviesUseCase: SearchInMoviesUseCase
 ) : ViewModel() {
 
-    var popularMoviesState: MutableStateFlow<PagingData<Results>> =
+    var moviesState: MutableStateFlow<PagingData<Results>> =
         MutableStateFlow(PagingData.empty())
 
-    init {
-        getPopularMovies()
-    }
 
-    fun getPopularMovies() {
+    fun searchIntMovies(query: String) {
         viewModelScope.launch {
-            getPopularMoviesUseCase.invoke()
+            searchInMoviesUseCase.invoke(query).distinctUntilChanged()
                 .cachedIn(viewModelScope)
                 .collectIndexed { _, value ->
-
-                    popularMoviesState.value = value
+                    moviesState.value = value
                 }
         }
     }

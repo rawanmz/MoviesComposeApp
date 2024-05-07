@@ -8,7 +8,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -16,6 +15,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.semantics.testTag
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.paging.LoadState
@@ -32,33 +34,39 @@ import kotlinx.coroutines.flow.MutableStateFlow
 @Composable
 fun PopularMoviesScreen(
     navController: NavHostController,
-    popularMoviesState: MutableStateFlow<PagingData<Results>>,
-    function: () -> Unit
+    popularMoviesState: MutableStateFlow<PagingData<Results>>
 ) {
     val moviePagingItems = popularMoviesState.collectAsLazyPagingItems()
-    Box {
+    Box(modifier = Modifier) {
 
         LazyVerticalGrid(
             columns = GridCells.Fixed(3),
-            modifier = Modifier.fillMaxSize(),
+            modifier = Modifier
+                .fillMaxSize()
+                .semantics {
+                    contentDescription = "LazyVerticalGridLayout"
+                },
             verticalArrangement = Arrangement.Center,
             horizontalArrangement = Arrangement.Center
         ) {
             items(moviePagingItems.itemCount) { index ->
-                if(moviePagingItems[index]?.adult==false) {
-                    AsyncImage(
-                        model = "${MOVIE_IMAGE_BASE_URL}${BackdropSize.w300}/${moviePagingItems[index]?.posterPath}",
-                        contentDescription = "",
-                        modifier = Modifier
-                            .padding(2.dp)
-                            .clickable {
-                                navController.navigate(Screens.MovieDetail.route + "/${moviePagingItems[index]?.id}")
-                            },
-                        contentScale = ContentScale.FillWidth,
-                        error = painterResource(R.drawable.no_poster),
-                        placeholder = painterResource(R.drawable.no_poster)
-                    )
-                }
+                AsyncImage(
+                    model = "${MOVIE_IMAGE_BASE_URL}${BackdropSize.w300}/${moviePagingItems[index]?.posterPath}",
+                    contentDescription = "NavigateToDetail",
+                    modifier = Modifier
+                        .padding(2.dp)
+                        .clickable {
+                            navController.navigate(Screens.MovieDetail.route + "/${moviePagingItems[index]?.id}")
+                        },
+                    contentScale = ContentScale.FillWidth,
+                    error = painterResource(R.drawable.no_poster),
+                    placeholder = painterResource(R.drawable.no_poster)
+                )
+                Text(
+                    text = moviePagingItems[index]?.voteAverage.toString(),
+                    modifier = Modifier.semantics {
+                        testTag = "NavigateToDetail"
+                    })
             }
         }
         moviePagingItems.apply {
@@ -107,10 +115,5 @@ fun PopularMoviesScreen(
                 }
             }
         }
-    }
-    Button(onClick = {
-        function.invoke()
-    }) {
-        Text(text = "Refresh")
     }
 }

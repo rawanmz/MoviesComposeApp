@@ -31,11 +31,20 @@ class MoviesRepository @Inject constructor(
 
     }
 
-      fun getPopularMovies(): Flow<PagingData<Results>> {
+      fun getUpComingMovies(): Flow<PagingData<Results>> {
         return Pager(
             config = PagingConfig(pageSize = 20, prefetchDistance = 20, enablePlaceholders = false),
             pagingSourceFactory = {
-                MoviePagingSource(movieApi)
+                MoviePagingSource(movieApi,false)
+            }
+        ).flow
+    }
+
+    fun searchInMovies(query: String): Flow<PagingData<Results>> {
+        return Pager(
+            config = PagingConfig(pageSize = 20, prefetchDistance = 20, enablePlaceholders = false),
+            pagingSourceFactory = {
+                MoviePagingSource(movieApi, true, query)
             }
         ).flow
     }

@@ -19,15 +19,32 @@ interface MovieApi {
         page: Int = 1,
     ): Response<SearchResponse>
 
+
     @GET("3/movie/{movie_id}")
     suspend fun getMovieDetail(
         @Path("movie_id")
         movieId: Int,
         @Query("api_key")
-        api_key: String = BuildConfig.TMDB_API_KEY,
+        apiKey: String = BuildConfig.TMDB_API_KEY,
         @Query("language")
         language: String = "en-US",
         @Query("append_to_response")
         append_to_response: String?=""
     ): Response<MovieDetailsResponse>
+
+
+    @GET("3/search/movie")
+    suspend fun search(
+        @Query("api_key")
+        apiKey: String =  BuildConfig.TMDB_API_KEY,
+        @Query("language")
+        language: String = "en-US",
+        @Query("query")
+        query: String,
+        @Query("page")
+        page: Int ,
+        @Query("include_adult")
+        includeAdult: Boolean = false
+    ): Response<SearchResponse>
+
 }
