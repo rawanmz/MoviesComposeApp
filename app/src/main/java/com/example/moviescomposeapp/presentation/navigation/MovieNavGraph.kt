@@ -1,11 +1,7 @@
 package com.example.moviescomposeapp.presentation.navigation
 
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -23,6 +19,8 @@ import com.example.moviescomposeapp.presentation.screens.onBoarding.OnBoardingSc
 import com.example.moviescomposeapp.presentation.screens.onBoarding.OnBoardingViewModel
 import com.example.moviescomposeapp.presentation.screens.popular.PopularMoviesScreen
 import com.example.moviescomposeapp.presentation.screens.popular.PopularMoviesViewModel
+import com.example.moviescomposeapp.presentation.screens.profile.ProfileScreen
+import com.example.moviescomposeapp.presentation.screens.profile.UserProfileViewModel
 import com.example.moviescomposeapp.presentation.screens.search.SearchScreen
 import com.example.moviescomposeapp.presentation.screens.search.SearchViewModel
 
@@ -55,13 +53,8 @@ fun MovieNavGraph(
         }
 
         composable(Screens.Profile.route) {
-            Column(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .background(Color.Gray)
-            ) {
-
-            }
+            val viewModel = hiltViewModel<UserProfileViewModel>()
+            ProfileScreen(viewModel,navController)
         }
         composable("${Screens.MovieDetail.route}/{id}", arguments = listOf(
             navArgument("id") {

@@ -1,5 +1,7 @@
 package com.example.moviescomposeapp.model
 
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 import com.google.gson.annotations.SerializedName
 
 data class SearchResponse(
@@ -9,7 +11,6 @@ data class SearchResponse(
     @SerializedName("total_pages") var totalPages: Int? = null,
     @SerializedName("total_results") var totalResults: Int? = null
 )
-
 
 data class Results(
     @SerializedName("adult") var adult: Boolean? ,
@@ -26,10 +27,21 @@ data class Results(
     @SerializedName("video") var video: Boolean? = null,
     @SerializedName("vote_average") var voteAverage: Double? = null,
     @SerializedName("vote_count") var voteCount: Int? = null
-
 )
 
 data class Dates(
     @SerializedName("maximum") var maximum: String? = null,
     @SerializedName("minimum") var minimum: String? = null
+)
+
+@Entity(tableName = "movies")
+data class Movie(
+    @PrimaryKey val id: Int,
+    val title: String,
+    val overview: String,
+    val posterPath: String,
+    val backdropPath: String,
+    val voteAverage: Double? = null,
+    val voteCount: Int? = null,
+    val page: Int // Track which page the movie belongs to
 )
