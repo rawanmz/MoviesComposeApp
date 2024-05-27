@@ -6,6 +6,7 @@ import com.example.moviescomposeapp.model.SearchResponse
 import com.example.moviescomposeapp.model.UserAccount
 import com.example.moviescomposeapp.model.UserTokenResponse
 import retrofit2.Response
+import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST
 import retrofit2.http.Path
